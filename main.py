@@ -5,7 +5,8 @@ from pygame import Vector2 as vec2
 from snake import Snake
 from food import Food
 from typing import List, overload
-from world import WorldState, Overlay
+from world import WorldState
+from overlay import Overlay
 import events as game_events
 
 class SnakeGameMeta:
@@ -21,7 +22,7 @@ class SnakeGameMeta:
 
         self.clock = pygame.time.Clock()
         self.running = True
-        self.bg_color = (120, 120, 120)
+        self.bg_color = (38,38,38)
 
         WORLD_DIMENTION = 50
 

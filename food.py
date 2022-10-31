@@ -13,7 +13,7 @@ class Food:
         self.BOX_DIMENTION = dimention
 
         self.pos = vec2(self.BOX_DIMENTION/2, self.BOX_DIMENTION/2)
-        self.color = pygame.Color(255, 0, 0)
+        self.color = pygame.Color(244,96,54)
 
         self.rect_size = None
         self.box_size = None

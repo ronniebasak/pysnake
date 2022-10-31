@@ -4,7 +4,6 @@ from pygame import Vector2 as vec2
 from world import WorldState
 from enum import Enum
 import events as game_events
-import time
 
 
 class SnakeDirectionEnum(Enum):
@@ -25,8 +24,9 @@ class Snake:
         self.y_offset = None
 
 
-        self.snake_color = pygame.Color(0, 255, 0)
+        self.snake_color = pygame.Color(22,186,197)
         self.dead_color = pygame.Color(255, 0, 0)
+        self.bg_color = pygame.Color(10,9,8)
 
         self.snake_length = length
         self.snake = []
@@ -35,15 +35,7 @@ class Snake:
         self.direction: SnakeDirectionEnum = SnakeDirectionEnum.RIGHT
         self.alive = True
 
-        self.GOMusic = [
-            pygame.mixer.Sound("assets/emotional-damage-meme.mp3"),
-            pygame.mixer.Sound("assets/choti-bacchi-ho-kya.mp3"),
-            pygame.mixer.Sound("assets/fail-sound-effect.mp3"),
-            pygame.mixer.Sound("assets/the-lion-sleeps-tonight.mp3"),
-            pygame.mixer.Sound("assets/tf_nemesis.mp3"),
-        ]
 
-        self.channel = pygame.mixer.Channel(0)
         self.init_snake()
 
 
@@ -53,19 +45,6 @@ class Snake:
         for k in range(0, self.snake_length):
             self.snake.append(vec2(midway-self.snake_length+k, midway))
         print(self.snake)
-
-
-    def get_music(self, score):
-        index = 0
-        if score >= 1 and score < 3:
-            index  = 1
-        elif score >= 3 and score < 10:
-            index = 2
-        elif score >= 10 and score < 15:
-            index = 3
-        elif score >= 15:
-            index = 4
-        return self.GOMusic[index]
 
 
     def update(self, world_state: WorldState, delta_time: float, world: List):
@@ -82,17 +61,12 @@ class Snake:
             if head.x < 0 or head.x >= self.BOX_DIMENTION or head.y < 0 or head.y >= self.BOX_DIMENTION:
                 self.alive = False
                 self.snake_color = self.dead_color
-                print(world_state.SCORE)
-                self.channel.queue(self.get_music(world_state.SCORE))
-                print(self.get_music(world_state.SCORE))
+                pygame.event.post(game_events.SnakeDeadEvent)
                 
             elif head in self.snake[:-1]:
                 self.alive = False
                 self.snake_color = self.dead_color
-                self.channel.queue(self.get_music(world_state.SCORE))
-
-        elif not self.channel.get_busy():
-            pygame.event.post(game_events.GameOverEvent)
+                pygame.event.post(game_events.SnakeDeadEvent)
 
 
     def handle_event(self, event: pygame.event.Event):
@@ -135,7 +109,7 @@ class Snake:
 
     def draw(self, surface: pygame.Surface, delta_time: float):                
         # set the stage
-        pygame.gfxdraw.box(surface, (self.x_offset, self.y_offset, self.box_size, self.box_size), (0,0,0))
+        pygame.gfxdraw.box(surface, (self.x_offset, self.y_offset, self.box_size, self.box_size), self.bg_color)
 
         ## draw the snake
         for snake_tile in self.snake:
