@@ -36,10 +36,11 @@ class Snake:
         self.alive = True
 
         self.GOMusic = [
-            pygame.mixer.Sound("assets/klonk.mp3"),
+            pygame.mixer.Sound("assets/emotional-damage-meme.mp3"),
+            pygame.mixer.Sound("assets/choti-bacchi-ho-kya.mp3"),
+            pygame.mixer.Sound("assets/fail-sound-effect.mp3"),
             pygame.mixer.Sound("assets/the-lion-sleeps-tonight.mp3"),
             pygame.mixer.Sound("assets/tf_nemesis.mp3"),
-            pygame.mixer.Sound("assets/emotional-damage-meme.mp3"),
         ]
 
         self.channel = pygame.mixer.Channel(0)
@@ -52,6 +53,19 @@ class Snake:
         for k in range(0, self.snake_length):
             self.snake.append(vec2(midway-self.snake_length+k, midway))
         print(self.snake)
+
+
+    def get_music(self, score):
+        index = 0
+        if score >= 1 and score < 3:
+            index  = 1
+        elif score >= 3 and score < 10:
+            index = 2
+        elif score >= 10 and score < 15:
+            index = 3
+        elif score >= 15:
+            index = 4
+        return self.GOMusic[index]
 
 
     def update(self, world_state: WorldState, delta_time: float, world: List):
@@ -68,15 +82,18 @@ class Snake:
             if head.x < 0 or head.x >= self.BOX_DIMENTION or head.y < 0 or head.y >= self.BOX_DIMENTION:
                 self.alive = False
                 self.snake_color = self.dead_color
-                self.channel.queue(self.GOMusic)
+                print(world_state.SCORE)
+                self.channel.queue(self.get_music(world_state.SCORE))
+                print(self.get_music(world_state.SCORE))
                 
             elif head in self.snake[:-1]:
                 self.alive = False
                 self.snake_color = self.dead_color
-                self.channel.queue(self.GOMusic)
+                self.channel.queue(self.get_music(world_state.SCORE))
 
         elif not self.channel.get_busy():
             pygame.event.post(game_events.GameOverEvent)
+
 
     def handle_event(self, event: pygame.event.Event):
         # print("EVENT", event.type)
