@@ -4,6 +4,8 @@ from pygame import Vector2 as vec2
 from world import WorldState
 from enum import Enum
 import events as game_events
+import time
+
 
 class SnakeDirectionEnum(Enum):
     LEFT = 1
@@ -24,12 +26,23 @@ class Snake:
 
 
         self.snake_color = pygame.Color(0, 255, 0)
+        self.dead_color = pygame.Color(255, 0, 0)
 
         self.snake_length = length
         self.snake = []
-        self.timer_delay = 1000/15
+        self.timer_delay = 1000/12
         self.timer = pygame.time.set_timer(game_events.SnakeTimerEvent, int(self.timer_delay))
         self.direction: SnakeDirectionEnum = SnakeDirectionEnum.RIGHT
+        self.alive = True
+
+        self.GOMusic = [
+            pygame.mixer.Sound("assets/klonk.mp3"),
+            pygame.mixer.Sound("assets/the-lion-sleeps-tonight.mp3"),
+            pygame.mixer.Sound("assets/tf_nemesis.mp3"),
+            pygame.mixer.Sound("assets/emotional-damage-meme.mp3"),
+        ]
+
+        self.channel = pygame.mixer.Channel(0)
         self.init_snake()
 
 
@@ -50,18 +63,24 @@ class Snake:
         self.x_offset = (self.world_state.WINDOW_SIZE_WIDTH - self.box_size)/2
         self.y_offset = (self.world_state.WINDOW_SIZE_HEIGHT - self.box_size)/2
 
+        if self.alive:
+            head = self.snake[-1]
+            if head.x < 0 or head.x >= self.BOX_DIMENTION or head.y < 0 or head.y >= self.BOX_DIMENTION:
+                self.alive = False
+                self.snake_color = self.dead_color
+                self.channel.queue(self.GOMusic)
+                
+            elif head in self.snake[:-1]:
+                self.alive = False
+                self.snake_color = self.dead_color
+                self.channel.queue(self.GOMusic)
 
-        head = self.snake[-1]
-        if head.x < 0 or head.x >= self.BOX_DIMENTION or head.y < 0 or head.y >= self.BOX_DIMENTION:
+        elif not self.channel.get_busy():
             pygame.event.post(game_events.GameOverEvent)
-        elif head in self.snake[:-1]:
-            pygame.event.post(game_events.GameOverEvent)
-
-
 
     def handle_event(self, event: pygame.event.Event):
         # print("EVENT", event.type)
-        if event.type == game_events.SnakeTimerEvent.type:
+        if event.type == game_events.SnakeTimerEvent.type and self.alive:
             head = self.snake[-1]
 
             new_vec = None

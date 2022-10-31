@@ -20,7 +20,7 @@ class Food:
         self.x_offset = None
         self.y_offset = None
         self.init = False
-        self.music  = pygame.mixer.Sound('assets/score.mp3')
+        self.music  = [pygame.mixer.Sound('assets/klonk.mp3'), pygame.mixer.Sound('assets/vine-boom-sound-effect_KT89XIq.mp3') ]
         print("Music",self.music)
 
 
@@ -53,7 +53,9 @@ class Food:
         if snake_head == self.pos:
             snake.snake_length += 1
             world_state.SCORE += 1
-            self.music.play()
+
+            rmusic = randint(0,len(self.music)-1)
+            self.music[rmusic].play()
             print("Score:", world_state.SCORE)
             self.init = False
 
