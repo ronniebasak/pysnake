@@ -1,7 +1,7 @@
 import pygame
-from snake import Snake
-import events as game_events
-from world import WorldState
+from .snake import Snake
+from ..events import GameEvents as game_events
+from ..world import WorldState
 from typing import List
 import time
 

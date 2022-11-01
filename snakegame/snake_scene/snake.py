@@ -1,10 +1,9 @@
 from typing import List
 import pygame
 from pygame import Vector2 as vec2
-from world import WorldState
+from ..world import WorldState
 from enum import Enum
-import events as game_events
-
+from ..events import GameEvents as game_events
 
 class SnakeDirectionEnum(Enum):
     LEFT = 1

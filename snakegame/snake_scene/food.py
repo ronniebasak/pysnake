@@ -1,8 +1,8 @@
 from typing import List
 import pygame
 from pygame import Vector2 as vec2
-from snake import Snake
-from world import WorldState
+from .snake import Snake
+from ..world import WorldState
 from enum import Enum
 from random import randint
 import pygame.mixer

@@ -9,4 +9,3 @@ class WorldState:
 
     def __init__(self) -> None:
         ...
-import events as game_events
