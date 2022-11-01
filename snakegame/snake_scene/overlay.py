@@ -1,6 +1,6 @@
 import pygame
 from .snake import Snake
-from ..events import GameEvents as game_events
+from ..events import GameOverEvent, SnakeDeadEvent
 from ..world import WorldState
 from typing import List
 import time
@@ -61,13 +61,13 @@ class Overlay:
         
         snake: Snake = list(filter(lambda x: isinstance(x, Snake), world)) [0]
         if self.is_snake_dead and not self.channel.get_busy():
-            pygame.event.post(game_events.GameOverEvent)
+            pygame.event.post(GameOverEvent().event)
             # print("Finished playback")
 
 
     def handle_event(self, event: pygame.event.Event):
         # print("EVENT", event.type)
-        if event.type == game_events.SnakeDeadEvent.type:
+        if event.type == SnakeDeadEvent.type:
             self.channel.queue(self.get_music(self.world_state.SCORE))
             self.is_snake_dead = True
             # time.sleep(0.01)

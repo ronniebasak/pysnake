@@ -7,7 +7,7 @@ from snakegame.snake_scene.food import Food
 from typing import List, overload
 from .world import WorldState
 from snakegame.snake_scene.overlay import Overlay
-from .events import GameEvents as game_events
+from .events import GameOverEvent
 
 class SnakeGameMeta:
     def __init__(self):
@@ -92,7 +92,7 @@ def main():
                 g.running = False
                 pygame.quit()
                 return
-            elif event.type == game_events.GameOverEvent.type:
+            elif event.type == GameOverEvent.type:
                 print("Game Over: ")
                 g.running = False
                 pygame.quit()

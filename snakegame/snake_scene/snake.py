@@ -3,7 +3,7 @@ import pygame
 from pygame import Vector2 as vec2
 from ..world import WorldState
 from enum import Enum
-from ..events import GameEvents as game_events
+from ..events import SnakeDeadEvent, SnakeTimerEvent
 
 class SnakeDirectionEnum(Enum):
     LEFT = 1
@@ -30,7 +30,7 @@ class Snake:
         self.snake_length = length
         self.snake = []
         self.timer_delay = 1000/12
-        self.timer = pygame.time.set_timer(game_events.SnakeTimerEvent, int(self.timer_delay))
+        self.timer = pygame.time.set_timer(SnakeTimerEvent(time = 2, me = 1).event, int(self.timer_delay))
         self.direction: SnakeDirectionEnum = SnakeDirectionEnum.RIGHT
         self.alive = True
 
@@ -60,17 +60,17 @@ class Snake:
             if head.x < 0 or head.x >= self.BOX_DIMENTION or head.y < 0 or head.y >= self.BOX_DIMENTION:
                 self.alive = False
                 self.snake_color = self.dead_color
-                pygame.event.post(game_events.SnakeDeadEvent)
+                pygame.event.post(SnakeDeadEvent(reason="HIT_WALL").event)
                 
             elif head in self.snake[:-1]:
                 self.alive = False
                 self.snake_color = self.dead_color
-                pygame.event.post(game_events.SnakeDeadEvent)
+                pygame.event.post(SnakeDeadEvent(reason="EAT_SELF").event)
 
 
     def handle_event(self, event: pygame.event.Event):
         # print("EVENT", event.type)
-        if event.type == game_events.SnakeTimerEvent.type and self.alive:
+        if event.type == SnakeTimerEvent.type and self.alive:
             head = self.snake[-1]
 
             new_vec = None
