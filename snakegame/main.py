@@ -1,89 +1,43 @@
 import pygame
 import pygame.gfxdraw
-from random import randint
-from pygame import Vector2 as vec2
-from snakegame.snake_scene.snake import Snake
-from snakegame.snake_scene.food import Food
-from typing import List, overload
 from .world import WorldState
-from snakegame.snake_scene.overlay import Overlay
 from .events import GameOverEvent
-
-class SnakeGameMeta:
-    def __init__(self):
-        pygame.init()
-        self.world: List = []
-        self.world_state: WorldState = WorldState()
-
-        self.window = pygame.display.set_mode(
-            (self.world_state.WINDOW_SIZE_WIDTH, self.world_state.WINDOW_SIZE_HEIGHT)
-        )
-        pygame.display.set_caption("SnakeGame Title")
-
-        self.clock = pygame.time.Clock()
-        self.running = True
-        self.bg_color = (38,38,38)
-
-        WORLD_DIMENTION = 50
-
-        # adding snake to our world
-        snake = Snake(WORLD_DIMENTION, 5)
-        food = Food(WORLD_DIMENTION)
-        overlay = Overlay(WORLD_DIMENTION)
-
-        self.world += [
-            snake,
-            food,
-            overlay
-        ]
-
-    def update(self,delta_time: float):
-        pygame.display.set_caption(
-            f"Snake Remastered - {int(self.clock.get_fps())} FPS"
-        )
-        self.window.fill(self.bg_color)
-
-        for player in self.world:
-            player.update(self.world_state, delta_time, self.world)
-
-        for player in self.world:
-            player.draw(self.window, delta_time)
-        pygame.display.flip()
-
-
-    def handle_event(self, event: pygame.event.Event):
-        for player in self.world:
-            if hasattr(player, 'handle_event'):
-                player.handle_event(event)
-
+from .snake_scene import SnakeGameMeta
 
 
 class DefaultSceneLoader:
-
     def __init__(self) -> None:
         self.world_state: WorldState = WorldState()
         self.SCENES: dict = {
             'Snake': SnakeGameMeta
         }
+        self.clock = pygame.time.Clock()
         self.entrypoint: str = 'Snake'
         self.current_scene = None
+        self.scene_init = False
         self.running = True
-
+        self.window = pygame.display.set_mode(
+            (self.world_state.WINDOW_SIZE_WIDTH, self.world_state.WINDOW_SIZE_HEIGHT)
+        )
     
     def update(self, delta_time):
         if not self.current_scene:
-            scene_cls = self.SCENES[self.entrypoinmt]
+            scene_cls = self.SCENES[self.entrypoint]
             scene = scene_cls()
             self.current_scene = scene
+            scene.scene_init(self.window, self.clock)
+            self.scene_init = self.current_scene.init
         self.current_scene.update(self.world_state, delta_time)
 
 
+    def handle_event(self, event):
+        if self.current_scene and self.scene_init:
+            self.current_scene.handle_event(event)
 
 
 
 def main():
-    g = SnakeGameMeta()
-
+    g = DefaultSceneLoader()
     while g.running:
         delta_time = g.clock.tick(300) / 1000
         for event in pygame.event.get():
