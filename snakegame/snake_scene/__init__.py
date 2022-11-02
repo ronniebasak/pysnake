@@ -12,8 +12,8 @@ from snakegame.snake_scene.overlay import Overlay
 
 class SnakeGameMeta:
     def __init__(self):
-        pygame.init()
         self.world: List = []
+        self.world_state = None
         pygame.display.set_caption("SnakeGame Title")
         self.running = True
         self.bg_color = (38,38,38)
@@ -24,7 +24,6 @@ class SnakeGameMeta:
         snake = Snake(WORLD_DIMENTION, 5)
         food = Food(WORLD_DIMENTION)
         overlay = Overlay(WORLD_DIMENTION)
-        _init = False
 
         self.world += [
             snake,
@@ -32,10 +31,13 @@ class SnakeGameMeta:
             overlay
         ]
 
+    def __del__(self):
+        print("Snake is being deleted")
 
-    def scene_init(self, window, clock):
+    def scene_init(self, window, clock, world_state):
         self.window = window
         self.clock = clock
+        self.world_state = world_state
         self.init = True
 
 
