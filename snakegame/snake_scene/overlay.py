@@ -61,6 +61,7 @@ class Overlay:
         
         snake: Snake = list(filter(lambda x: isinstance(x, Snake), world)) [0]
         if self.is_snake_dead and not self.channel.get_busy():
+            self.world_state.SCORE = 0
             pygame.event.post(SwitchSceneEvent(scene_name='Intro').event)
             # print("Finished playback")
 
