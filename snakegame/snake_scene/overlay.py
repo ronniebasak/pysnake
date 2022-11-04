@@ -23,11 +23,12 @@ class Overlay:
         print("Fonts initialized")
 
         self.GOMusic = [
-            pygame.mixer.Sound("assets/emotional-damage-meme.mp3"),
-            pygame.mixer.Sound("assets/choti-bacchi-ho-kya.mp3"),
-            pygame.mixer.Sound("assets/fail-sound-effect.mp3"),
-            pygame.mixer.Sound("assets/the-lion-sleeps-tonight.mp3"),
-            pygame.mixer.Sound("assets/tf_nemesis.mp3"),
+            pygame.mixer.Sound("assets/thuglife.mp3"),
+            # pygame.mixer.Sound("assets/emotional-damage-meme.mp3"),
+            # pygame.mixer.Sound("assets/choti-bacchi-ho-kya.mp3"),
+            # pygame.mixer.Sound("assets/fail-sound-effect.mp3"),
+            # pygame.mixer.Sound("assets/the-lion-sleeps-tonight.mp3"),
+            # pygame.mixer.Sound("assets/tf_nemesis.mp3"),
         ]
         self.channel = pygame.mixer.Channel(0)
         self.is_snake_dead = False  
@@ -35,14 +36,6 @@ class Overlay:
 
     def get_music(self, score):
         index = 0
-        if score >= 1 and score < 3:
-            index  = 1
-        elif score >= 3 and score < 10:
-            index = 2
-        elif score >= 10 and score < 15:
-            index = 3
-        elif score >= 15:
-            index = 4
         return self.GOMusic[index]
 
 
