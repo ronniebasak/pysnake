@@ -18,67 +18,67 @@ class SnakeGameMeta:
         self.window = pygame.display.set_mode(
             (self.world_state.WINDOW_SIZE_WIDTH, self.world_state.WINDOW_SIZE_HEIGHT)
         )
-        pygame.display.set_caption("SnakeGame Title")
+        pygame.display.set_caption("A Python's Odyssey")
 
         self.clock = pygame.time.Clock()
         self.running = True
         self.bg_color = (38,38,38)
 
-        WORLD_DIMENSION = 50
+        WORLD_DIMENSION = self.world_state.WORLD_DIMENSION
 
-        # adding snake to our world
+        # # adding snake to our world
         snake = Snake(WORLD_DIMENSION, 5)
-        food = Food(WORLD_DIMENSION)
-        overlay = Overlay(WORLD_DIMENSION)
+        # food = Food(WORLD_DIMENSION)
+        # overlay = Overlay(WORLD_DIMENSION)
 
         self.world += [
             snake,
-            food,
-            overlay
+            # food,
+            # overlay
         ]
 
     def update(self,delta_time: float):
         pygame.display.set_caption(
-            f"Snake Remastered - {int(self.clock.get_fps())} FPS"
+            f"A Python's Odyssey - {int(self.clock.get_fps())} FPS"
         )
+
+        for obj in self.world:
+            obj.update(self.world_state, delta_time, self.world)
+
         self.window.fill(self.bg_color)
-
-        for player in self.world:
-            player.update(self.world_state, delta_time, self.world)
-
-        for player in self.world:
-            player.draw(self.window, delta_time)
+        for obj in self.world:
+            obj.draw(self.window, delta_time)
         pygame.display.flip()
 
 
     def handle_event(self, event: pygame.event.Event):
-        for player in self.world:
-            if hasattr(player, 'handle_event'):
-                player.handle_event(event)
+        for obj in self.world:
+            if hasattr(obj, 'handle_event'):
+                obj.handle_event(event)
 
 
 def main():
-    g = SnakeGameMeta()
+    game = SnakeGameMeta()
 
-    while g.running:
-        delta_time = g.clock.tick(300) / 1000
+    while game.running:
+        delta_time = game.clock.tick(30) / 1000
         for event in pygame.event.get():
             # print("event", event)
             if event.type == pygame.QUIT:
-                g.running = False
+                game.running = False
                 pygame.quit()
                 return
             elif event.type == game_events.GameOverEvent.type:
                 print("Game Over: ")
-                g.running = False
+                game.running = False
                 pygame.quit()
                 return
 
             else:
                 # print("Event", event)
-                g.handle_event(event)
+                game.handle_event(event)
 
-        g.update(delta_time)
+        game.update(delta_time)
 
 
 main()
