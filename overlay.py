@@ -6,9 +6,9 @@ from typing import List
 import time
 
 class Overlay:
-    def __init__(self, dimention = 100) -> None:
+    def __init__(self, dimension = 100) -> None:
         self.world_state = None
-        self.BOX_DIMENTION = dimention
+        self.BOX_DIMENSION = dimension
         self.rect_size = None
         self.box_size = None
         self.x_offset = None
@@ -50,8 +50,8 @@ class Overlay:
         self.world_state = world_state
 
         ## update on every update
-        self.rect_size = min(self.world_state.WINDOW_SIZE_WIDTH, self.world_state.WINDOW_SIZE_HEIGHT)/self.BOX_DIMENTION
-        self.box_size = self.rect_size * self.BOX_DIMENTION
+        self.rect_size = min(self.world_state.WINDOW_SIZE_WIDTH, self.world_state.WINDOW_SIZE_HEIGHT)/self.BOX_DIMENSION
+        self.box_size = self.rect_size * self.BOX_DIMENSION
         self.x_offset = (self.world_state.WINDOW_SIZE_WIDTH - self.box_size)/2
         self.y_offset = (self.world_state.WINDOW_SIZE_HEIGHT - self.box_size)/2
         

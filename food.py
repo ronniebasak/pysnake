@@ -8,11 +8,11 @@ from random import randint
 import pygame.mixer
 
 class Food:
-    def __init__(self, dimention=100) -> None:
+    def __init__(self, dimension=100) -> None:
         self.world_state = None
-        self.BOX_DIMENTION = dimention
+        self.BOX_DIMENSION = dimension
 
-        self.pos = vec2(self.BOX_DIMENTION/2, self.BOX_DIMENTION/2)
+        self.pos = vec2(self.BOX_DIMENSION/2, self.BOX_DIMENSION/2)
         self.color = pygame.Color(244,96,54)
 
         self.rect_size = None
@@ -29,7 +29,7 @@ class Food:
         snake: Snake = list(filter(lambda x: isinstance(x, Snake), world)) [0]
         blacklist = snake.snake
         
-        x = vec2(randint(0, self.BOX_DIMENTION-1), randint(0, self.BOX_DIMENTION-1))
+        x = vec2(randint(0, self.BOX_DIMENSION-1), randint(0, self.BOX_DIMENSION-1))
         if x in blacklist:
             self.init_food_pos(world)
             return
@@ -40,8 +40,8 @@ class Food:
     def update(self, world_state: WorldState, delta_time: float, world: List):
         self.world_state = world_state
         ## update on every update
-        self.rect_size = min(self.world_state.WINDOW_SIZE_WIDTH, self.world_state.WINDOW_SIZE_HEIGHT)/self.BOX_DIMENTION
-        self.box_size = self.rect_size * self.BOX_DIMENTION
+        self.rect_size = min(self.world_state.WINDOW_SIZE_WIDTH, self.world_state.WINDOW_SIZE_HEIGHT)/self.BOX_DIMENSION
+        self.box_size = self.rect_size * self.BOX_DIMENSION
         self.x_offset = (self.world_state.WINDOW_SIZE_WIDTH - self.box_size)/2
         self.y_offset = (self.world_state.WINDOW_SIZE_HEIGHT - self.box_size)/2
 

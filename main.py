@@ -24,12 +24,12 @@ class SnakeGameMeta:
         self.running = True
         self.bg_color = (38,38,38)
 
-        WORLD_DIMENTION = 50
+        WORLD_DIMENSION = 50
 
         # adding snake to our world
-        snake = Snake(WORLD_DIMENTION, 5)
-        food = Food(WORLD_DIMENTION)
-        overlay = Overlay(WORLD_DIMENTION)
+        snake = Snake(WORLD_DIMENSION, 5)
+        food = Food(WORLD_DIMENSION)
+        overlay = Overlay(WORLD_DIMENSION)
 
         self.world += [
             snake,

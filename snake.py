@@ -14,9 +14,9 @@ class SnakeDirectionEnum(Enum):
 
 
 class Snake:
-    def __init__(self, dimention=100, length = 5) -> None:
+    def __init__(self, dimension=100, length = 5) -> None:
         self.world_state = None
-        self.BOX_DIMENTION = dimention
+        self.BOX_DIMENSION = dimension
 
         self.rect_size = None
         self.box_size = None
@@ -41,7 +41,7 @@ class Snake:
 
     def init_snake(self):
         print("Init Snake")
-        midway = int(self.BOX_DIMENTION/2)
+        midway = int(self.BOX_DIMENSION/2)
         for k in range(0, self.snake_length):
             self.snake.append(vec2(midway-self.snake_length+k, midway))
         print(self.snake)
@@ -51,14 +51,14 @@ class Snake:
         self.world_state = world_state
 
         ## update on every update
-        self.rect_size = min(self.world_state.WINDOW_SIZE_WIDTH, self.world_state.WINDOW_SIZE_HEIGHT)/self.BOX_DIMENTION
-        self.box_size = self.rect_size * self.BOX_DIMENTION
+        self.rect_size = min(self.world_state.WINDOW_SIZE_WIDTH, self.world_state.WINDOW_SIZE_HEIGHT)/self.BOX_DIMENSION
+        self.box_size = self.rect_size * self.BOX_DIMENSION
         self.x_offset = (self.world_state.WINDOW_SIZE_WIDTH - self.box_size)/2
         self.y_offset = (self.world_state.WINDOW_SIZE_HEIGHT - self.box_size)/2
 
         if self.alive:
             head = self.snake[-1]
-            if head.x < 0 or head.x >= self.BOX_DIMENTION or head.y < 0 or head.y >= self.BOX_DIMENTION:
+            if head.x < 0 or head.x >= self.BOX_DIMENSION or head.y < 0 or head.y >= self.BOX_DIMENSION:
                 self.alive = False
                 self.snake_color = self.dead_color
                 pygame.event.post(game_events.SnakeDeadEvent)
