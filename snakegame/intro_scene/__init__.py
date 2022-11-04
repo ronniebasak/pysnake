@@ -51,12 +51,12 @@ class IntroScene:
         ## center of the window
         center =  vec2(self.window.get_size())/2
 
-        ## center of the image
+        ## center of the title
         imgcenter = vec2(self.title_img.get_size()) /2
         offset = center - imgcenter
         self.window.blit(self.title_img, offset - vec2(0, 175) )
 
-        ## center of the image
+        ## center of the subtitle
         imgcenter = vec2(self.click_img.get_size()) /2
         offset = center - imgcenter
         self.window.blit(self.click_img, offset + vec2(0, 175) )
@@ -64,7 +64,7 @@ class IntroScene:
         ## the desired max size        
         isize = vec2(200, 200)
         # the desired frequency factor
-        freq = dt*2
+        freq = dt*3
 
         # the sin of frequency gives an output between -1 and 1
         # add 1 to the result so the range changes to 2 and 0
