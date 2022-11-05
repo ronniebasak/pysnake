@@ -88,13 +88,13 @@ class Snake:
             self.snake = self.snake[-self.snake_length:]
 
         elif event.type == pygame.KEYDOWN:
-            if event.unicode.lower() == "w" and self.direction != SnakeDirectionEnum.DODWN:
+            if (event.unicode.lower() == "w" or event.key == pygame.K_UP) and self.direction != SnakeDirectionEnum.DODWN:
                 self.direction = SnakeDirectionEnum.UP
-            elif event.unicode.lower() == "d" and self.direction != SnakeDirectionEnum.LEFT:
+            elif (event.unicode.lower() == "d" or event.key == pygame.K_RIGHT) and self.direction != SnakeDirectionEnum.LEFT:
                 self.direction = SnakeDirectionEnum.RIGHT
-            elif event.unicode.lower() == "s" and self.direction != SnakeDirectionEnum.UP:
+            elif (event.unicode.lower() == "s" or event.key == pygame.K_DOWN) and self.direction != SnakeDirectionEnum.UP:
                 self.direction = SnakeDirectionEnum.DODWN
-            elif event.unicode.lower() == "a" and self.direction != SnakeDirectionEnum.RIGHT:
+            elif (event.unicode.lower() == "a" or event.key == pygame.K_LEFT) and self.direction != SnakeDirectionEnum.RIGHT:
                 self.direction = SnakeDirectionEnum.LEFT
 
 
