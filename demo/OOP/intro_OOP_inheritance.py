@@ -25,7 +25,7 @@ class Dog(Animal):
     def speak(self):
         print(f"Bark, Bark! from {self.name}")
 
-
+## horse also inherits animal
 class Horse(Animal):
     def __init__(self, name, color="red"):
         super().__init__(name, "horse", color)
